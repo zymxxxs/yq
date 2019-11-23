@@ -18,8 +18,9 @@ class DocsPageState extends State<DocsPage> with AutomaticKeepAliveClientMixin {
   }
 
   void _onRefresh() async {
-    var data = await YqApi().explore.docs(limits: 20);
+    var data = await YqApi().explore.docs(limit: 20);
     _dataSource = (data is List) ? data : [];
+    print(_dataSource.length);
     if (_dataSource.length > 0) {
       setState(() {});
     }
@@ -30,10 +31,13 @@ class DocsPageState extends State<DocsPage> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return SmartRefresher(
-      child: ListView.builder(
+      child: ListView.separated(
         itemBuilder: (context, index) {
           Map<String, dynamic> info = _dataSource[index];
-          return buildItem(info);
+          return buildItem(info, index);
+        },
+        separatorBuilder: (context, index) {
+          return Divider(height: 1);
         },
         itemCount: _dataSource.length,
       ),
@@ -42,37 +46,50 @@ class DocsPageState extends State<DocsPage> with AutomaticKeepAliveClientMixin {
     );
   }
 
-  Widget buildItem(Map<String, dynamic> info) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                info['title'],
-                style: Theme.of(context)
-                    .textTheme
-                    .subhead
-                    .copyWith(fontWeight: FontWeight.w700),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text(
-                info['custom_description'] ?? info['description'] ?? "",
-                style: Theme.of(context).textTheme.caption,
-                maxLines: 3,
-              ),
-            ],
+  Widget buildItem(Map<String, dynamic> info, int index) {
+    TextStyle topTextStyle = TextStyle(
+      color: index < 3 ? Color(0xfffa541c) : Color(0xffbfbfbf),
+      fontWeight: FontWeight.bold,
+      fontSize: 20,
+    );
+    return Container(
+      padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            width: 40,
+            child: Text(
+              (index + 1).toString(),
+              maxLines: 1,
+              style: topTextStyle,
+            ),
           ),
-        ),
-        Divider(
-          height: 1,
-        )
-      ],
+          Expanded(
+            flex: 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  info['title'],
+                  style: Theme.of(context)
+                      .textTheme
+                      .subhead
+                      .copyWith(fontWeight: FontWeight.w700),
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  info['custom_description'] ?? info['description'] ?? "",
+                  style: Theme.of(context).textTheme.caption,
+                  maxLines: 3,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

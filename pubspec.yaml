@@ -22,6 +22,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   dio:
   pull_to_refresh:
+  webview_flutter:
+  path_provider:
 
 dev_dependencies:
   flutter_test:

@@ -21,7 +21,7 @@ class RecommendsPageState extends State<RecommendsPage>
 
   void _onRefresh() async {
     page = 1;
-    Map data = await YqApi().explore.recommends(limits: 20, page: page);
+    Map data = await YqApi().explore.recommends(limit: 20, page: page);
     _dataSource = data['docs'] ?? [];
     if (_dataSource.length > 0) {
       setState(() {});
@@ -31,7 +31,7 @@ class RecommendsPageState extends State<RecommendsPage>
 
   void _onLoading() async {
     page++;
-    Map data = await YqApi().explore.recommends(limits: 20, page: page);
+    Map data = await YqApi().explore.recommends(limit: 20, page: page);
     List result = data['docs'] ?? [];
     if (result.length > 0) {
       setState(() {
@@ -49,10 +49,13 @@ class RecommendsPageState extends State<RecommendsPage>
       enablePullUp: true,
       onRefresh: _onRefresh,
       onLoading: _onLoading,
-      child: ListView.builder(
+      child: ListView.separated(
         itemBuilder: (context, index) {
           Map<String, dynamic> info = _dataSource[index];
           return buildItem(info);
+        },
+        separatorBuilder: (context, index) {
+          return Divider(height: 1);
         },
         itemCount: _dataSource.length,
       ),
@@ -60,36 +63,28 @@ class RecommendsPageState extends State<RecommendsPage>
   }
 
   Widget buildItem(Map<String, dynamic> info) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                info['title'],
-                style: Theme.of(context)
-                    .textTheme
-                    .subhead
-                    .copyWith(fontWeight: FontWeight.w700),
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Text(
-                info['custom_description'] ?? info['description'] ?? "",
-                style: Theme.of(context).textTheme.caption,
-                maxLines: 3,
-              ),
-            ],
+    return Container(
+      padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            info['title'],
+            style: Theme.of(context)
+                .textTheme
+                .subhead
+                .copyWith(fontWeight: FontWeight.w700),
           ),
-        ),
-        Divider(
-          height: 1,
-        )
-      ],
+          SizedBox(
+            height: 4,
+          ),
+          Text(
+            info['custom_description'] ?? info['description'] ?? "",
+            style: Theme.of(context).textTheme.caption,
+            maxLines: 3,
+          ),
+        ],
+      ),
     );
   }
 

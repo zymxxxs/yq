@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:yq/page/doc_detail_page.dart';
 import 'page/explore_page/explore_page.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.white,
         accentColor: Color(0xFF25B864),
       ),
-      home: ExplorePage(),
+      home: DocDetailPage(),
     );
   }
 }
