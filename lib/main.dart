@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.white,
         accentColor: Color(0xFF25B864),
       ),
-      home: DocDetailPage(),
+      home: ExplorePage(),
     );
   }
 }
