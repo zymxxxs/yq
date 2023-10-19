@@ -11,7 +11,7 @@ class DocDetailPage extends StatefulWidget {
 
 class DocDetailPageState extends State<DocDetailPage> {
   String h5 = '';
-  WebViewController _webviewController;
+  late WebViewController _webviewController;
   @override
   void initState() {
     super.initState();
@@ -27,7 +27,8 @@ class DocDetailPageState extends State<DocDetailPage> {
       mimeType: 'text/html',
       encoding: Encoding.getByName('utf-8'),
     ).toString();
-    _webviewController.loadUrl(h5);
+
+    _webviewController = WebViewController()..loadHtmlString(h5);
   }
 
   @override
@@ -36,12 +37,7 @@ class DocDetailPageState extends State<DocDetailPage> {
       appBar: AppBar(
         title: Text('yq'),
       ),
-      body: WebView(
-        onWebViewCreated: (WebViewController controller) {
-          _webviewController = controller;
-        },
-        initialUrl: h5,
-      ),
+      body: WebViewWidget(controller: _webviewController),
     );
   }
 }

@@ -74,15 +74,15 @@ class DocsPageState extends State<DocsPage> with AutomaticKeepAliveClientMixin {
                   info['title'],
                   style: Theme.of(context)
                       .textTheme
-                      .subhead
-                      .copyWith(fontWeight: FontWeight.w700),
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.w700),
                 ),
                 SizedBox(
                   height: 4,
                 ),
                 Text(
                   info['custom_description'] ?? info['description'] ?? "",
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme.of(context).textTheme.bodySmall,
                   maxLines: 3,
                 ),
               ],

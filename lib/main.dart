@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         appBarTheme: AppBarTheme(elevation: 0),
         primaryColor: Colors.white,
-        accentColor: Color(0xFF25B864),
+        hintColor: Color(0xFF25B864),
       ),
       home: ExplorePage(),
     );

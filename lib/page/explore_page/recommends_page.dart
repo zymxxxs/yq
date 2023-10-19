@@ -21,8 +21,8 @@ class RecommendsPageState extends State<RecommendsPage>
 
   void _onRefresh() async {
     page = 1;
-    Map data = await YqApi().explore.recommends(limit: 20, page: page);
-    _dataSource = data['docs'] ?? [];
+    List? data = await YqApi().explore.recommends(limit: 20, page: page);
+    _dataSource = data ?? [];
     if (_dataSource.length > 0) {
       setState(() {});
     }
@@ -51,7 +51,7 @@ class RecommendsPageState extends State<RecommendsPage>
       onLoading: _onLoading,
       child: ListView.separated(
         itemBuilder: (context, index) {
-          Map<String, dynamic> info = _dataSource[index];
+          Map<String, dynamic> info = _dataSource[index]["data"];
           return buildItem(info);
         },
         separatorBuilder: (context, index) {
@@ -68,19 +68,13 @@ class RecommendsPageState extends State<RecommendsPage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            info['title'],
-            style: Theme.of(context)
-                .textTheme
-                .subhead
-                .copyWith(fontWeight: FontWeight.w700),
-          ),
+          Text(info['title'], style: Theme.of(context).textTheme.titleLarge),
           SizedBox(
             height: 4,
           ),
           Text(
             info['custom_description'] ?? info['description'] ?? "",
-            style: Theme.of(context).textTheme.caption,
+            style: Theme.of(context).textTheme.bodySmall,
             maxLines: 3,
           ),
         ],

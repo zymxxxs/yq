@@ -8,14 +8,15 @@ class ExplorePage extends StatefulWidget {
   ExplorePageState createState() => ExplorePageState();
 }
 
-class ExplorePageState extends State<ExplorePage> with SingleTickerProviderStateMixin {
+class ExplorePageState extends State<ExplorePage>
+    with SingleTickerProviderStateMixin {
   final List<String> _tabTitles = [
     "Editor's pick",
     'Headlines',
     'Top docs',
     'Top reps',
   ];
-  TabController _controller;
+  late TabController _controller;
 
   @override
   void initState() {

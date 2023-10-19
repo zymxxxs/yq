@@ -1,14 +1,11 @@
 import 'package:dio/dio.dart';
 
 class YqApi {
-  Explore explore;
-  Doc doc;
+  late Explore explore;
+  late Doc doc;
 
-  static YqApi _instance;
+  static YqApi _instance = YqApi._internal();
   factory YqApi() {
-    if (_instance == null) {
-      _instance = YqApi._internal();
-    }
     return _instance;
   }
 
@@ -22,17 +19,15 @@ class YqApi {
 
 class Doc {
   Dio _dio;
-  Doc(dio) {
-    this._dio = dio;
-  }
+  Doc(this._dio);
 
-  Future list({String namespace}) async {
+  Future list({required String namespace}) async {
     return _request(
       _dio.get('/repos/' + namespace + '/docs/'),
     );
   }
 
-  Future get({String namespace, String slug}) async {
+  Future get({required String namespace, required String slug}) async {
     return _request(
       _dio.get('/repos/' + namespace + '/docs/' + slug),
     );
@@ -41,11 +36,9 @@ class Doc {
 
 class Explore {
   Dio _dio;
-  Explore(dio) {
-    this._dio = dio;
-  }
+  Explore(this._dio);
 
-  Future recommends({int limit = 20, int page = 1, String type}) async {
+  Future recommends({int limit = 20, int page = 1, String? type}) async {
     return _request(
       _dio.get(
         'https://www.yuque.com/api/explore/recommends',
